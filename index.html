@@ -1,19 +1,438 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chris Li | Transportation Researcher</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chris Li — Transportation Researcher</title>
+<meta name="description" content="Chris Li is a Ph.D. student in Transportation Engineering at Rensselaer Polytechnic Institute, working on intelligent transportation systems, LLM agents, and traffic simulation.">
+<meta name="author" content="Chris Li">
+<meta property="og:title" content="Chris Li — Transportation Researcher">
+<meta property="og:description" content="Ph.D. student in Transportation Engineering at Rensselaer Polytechnic Institute. Intelligent transportation systems, LLM agents, traffic simulation.">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://chrisli1221.github.io/">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><text y=%2226%22 font-size=%2226%22>&#128721;</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:ital,wght@0,400;0,500;1,400&display=swap">
+<style>
+/* ---- tokens: light (default, un-stamped) ---- */
+:root{
+  --paper:#FBFAF7;
+  --ink:#15181D;
+  --muted:#5C6572;
+  --faint:#8A929D;
+  --rule:#E1DFD8;
+  --accent:#A05C00;
+  --accent-soft:rgba(160,92,0,.10);
+  --surface:#F3F1EA;
+  --focus:#A05C00;
+
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --sans:"IBM Plex Sans","Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+}
+/* system-dark (no stamp) — an explicit light choice still wins */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#101317;
+    --ink:#E9E6DF;
+    --muted:#9BA3AE;
+    --faint:#767E89;
+    --rule:#262B32;
+    --accent:#E8A54B;
+    --accent-soft:rgba(232,165,75,.13);
+    --surface:#171B21;
+    --focus:#E8A54B;
+  }
+}
+/* explicit dark choice */
+:root[data-theme="dark"]{
+  --paper:#101317;
+  --ink:#E9E6DF;
+  --muted:#9BA3AE;
+  --faint:#767E89;
+  --rule:#262B32;
+  --accent:#E8A54B;
+  --accent-soft:rgba(232,165,75,.13);
+  --surface:#171B21;
+  --focus:#E8A54B;
+}
+
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:16px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+}
+.page{
+  max-width:56rem;
+  margin:0 auto;
+  padding-inline:clamp(1.25rem,5vw,2.75rem);
+  padding-block:clamp(3rem,8vw,5.5rem) 3rem;
+  display:flex;
+  flex-direction:column;
+  gap:clamp(2.25rem,5vw,3.25rem);
+}
+
+/* ---- lane-marking divider ---- */
+.lane{
+  height:2px;
+  border:0;
+  margin:0;
+  background-image:repeating-linear-gradient(to right,var(--rule) 0 18px,transparent 18px 32px);
+}
+
+/* ---- masthead ---- */
+.masthead{display:flex;flex-direction:column;gap:.9rem;}
+.name{
+  font-family:var(--serif);
+  font-weight:500;
+  font-size:clamp(2.5rem,7vw,3.6rem);
+  line-height:1.05;
+  letter-spacing:-.018em;
+  margin:0;
+  text-wrap:balance;
+}
+.role{
+  margin:0;
+  font-size:1.0625rem;
+  color:var(--ink);
+  max-width:34rem;
+}
+.role .where{color:var(--muted);}
+.contact{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.35rem 1.4rem;
+  margin:.35rem 0 0;
+  padding:0;
+  list-style:none;
+  font-family:var(--mono);
+  font-size:.8125rem;
+}
+.contact a{color:var(--ink);}
+
+a{
+  color:var(--accent);
+  text-decoration:none;
+  border-bottom:1px solid var(--accent-soft);
+  transition:border-color .15s ease,color .15s ease;
+}
+a:hover{border-bottom-color:var(--accent);}
+.contact a{border-bottom-color:var(--rule);}
+.contact a:hover{color:var(--accent);border-bottom-color:var(--accent);}
+a:focus-visible{
+  outline:2px solid var(--focus);
+  outline-offset:3px;
+  border-radius:2px;
+}
+
+/* ---- section: mono rail + content ---- */
+.section{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:.65rem;
+}
+.rail{
+  font-family:var(--mono);
+  font-size:.6875rem;
+  font-weight:500;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--faint);
+  padding-top:.35rem;
+}
+.body{display:flex;flex-direction:column;gap:1.15rem;max-width:38rem;}
+.body p{margin:0;}
+.body p + p{margin-top:-.15rem;}
+@media (min-width:760px){
+  .section{grid-template-columns:9rem 1fr;gap:2.25rem;}
+}
+
+/* ---- research topics: definition list, not cards ---- */
+.topics{display:flex;flex-direction:column;gap:1rem;margin:0;}
+.topic{display:flex;flex-direction:column;gap:.15rem;}
+.topic dt{
+  font-family:var(--serif);
+  font-size:1.125rem;
+  font-weight:500;
+  letter-spacing:-.005em;
+}
+.topic dd{margin:0;color:var(--muted);font-size:.9375rem;}
+
+/* ---- entries: projects / publications ---- */
+.entries{display:flex;flex-direction:column;gap:1.4rem;}
+.entry{display:flex;flex-direction:column;gap:.3rem;}
+.entry-title{
+  font-family:var(--serif);
+  font-size:1.125rem;
+  font-weight:500;
+  line-height:1.32;
+  margin:0;
+  letter-spacing:-.005em;
+  text-wrap:pretty;
+}
+.entry .authors{font-size:.9375rem;color:var(--muted);}
+.entry .authors strong{color:var(--ink);font-weight:500;}
+.entry .links{
+  font-family:var(--mono);
+  font-size:.75rem;
+  letter-spacing:.01em;
+}
+.entry-meta .venue{
+  font-family:var(--sans);
+  font-style:italic;
+  font-size:.875rem;
+  letter-spacing:0;
+  color:var(--muted);
+}
+.entry-meta{
+  font-family:var(--mono);
+  font-size:.75rem;
+  color:var(--faint);
+  letter-spacing:.02em;
+  font-variant-numeric:tabular-nums;
+  display:flex;
+  flex-wrap:wrap;
+  align-items:baseline;
+  gap:.3rem .85rem;
+}
+.entry p{margin:0;color:var(--muted);font-size:.9375rem;}
+.tags{
+  display:flex;flex-wrap:wrap;gap:.4rem;
+  margin:.25rem 0 0;padding:0;list-style:none;
+}
+.tags li{
+  font-family:var(--mono);
+  font-size:.6875rem;
+  letter-spacing:.04em;
+  color:var(--muted);
+  background:var(--surface);
+  padding:.15rem .5rem;
+  border-radius:3px;
+}
+
+/* ---- education timeline ---- */
+.timeline{display:flex;flex-direction:column;gap:1.1rem;margin:0;}
+.stint{display:flex;flex-direction:column;gap:.1rem;}
+.stint .years{
+  font-family:var(--mono);
+  font-size:.75rem;
+  color:var(--faint);
+  font-variant-numeric:tabular-nums;
+  letter-spacing:.02em;
+}
+.stint .degree{font-weight:500;}
+.stint .school{color:var(--muted);font-size:.9375rem;}
+
+.note{
+  color:var(--faint);
+  font-style:italic;
+  font-size:.9375rem;
+}
+
+/* ---- footer ---- */
+.foot{
+  font-family:var(--mono);
+  font-size:.6875rem;
+  letter-spacing:.06em;
+  color:var(--faint);
+  display:flex;
+  flex-wrap:wrap;
+  gap:.3rem .9rem;
+}
+
+@media (prefers-reduced-motion:reduce){
+  *{transition:none !important;animation:none !important;}
+}
+</style>
 </head>
 <body>
-  <h1>Chris Li</h1>
-  <p>Ph.D. Student in Transportation Engineering at RPI</p>
+<main class="page">
 
-  <h2>Research Interests</h2>
-  <ul>
-    <li>Intelligent Transportation Systems</li>
-    <li>LLM Agents</li>
-    <li>Traffic Simulation and Optimization</li>
-  </ul>
+  <header class="masthead">
+    <h1 class="name">Chris Li</h1>
+    <p class="role">
+      Ph.D. student in Transportation Engineering<br>
+      <span class="where">Rensselaer Polytechnic Institute, Troy, NY</span>
+    </p>
+    <ul class="contact">
+      <li><a href="mailto:lis36@rpi.edu">lis36@rpi.edu</a></li>
+      <li><a href="https://scholar.google.com/citations?user=TiFsIWcAAAAJ&amp;hl=en">Google&nbsp;Scholar</a></li>
+      <li><a href="https://github.com/ChrisLi1221">GitHub</a></li>
+      <!-- Add your CV once it's in the repo:
+      <li><a href="cv.pdf">CV</a></li>
+      -->
+    </ul>
+  </header>
+
+  <hr class="lane">
+
+  <section class="section">
+    <h2 class="rail">About</h2>
+    <div class="body">
+      <p>I study how cities move — and how the tools we use to study movement could be far easier to reach for. My work sits between traffic simulation and language models: building agents that can set up, run, and interpret a microscopic simulation from a plain description of the scenario, so that testing a signal retiming or a demand shift is a question you ask rather than a week of configuration.</p>
+      <!-- Verify the advisor link below. If a lab/group name appears later, this line
+           can become: I work with <a href="URL">Prof. Ruimin Ke</a> in the [Lab Name] group. -->
+      <p>I am advised by <a href="https://faculty.rpi.edu/ruimin-ke">Prof. Ruimin Ke</a>.</p>
+      <p>Before an agent can answer that question well, the underlying model has to be right. So a good part of my time goes to the unglamorous half — network extraction, demand calibration, and deciding which measures of effectiveness actually tell you whether an intervention worked.</p>
+    </div>
+  </section>
+
+  <hr class="lane">
+
+  <section class="section">
+    <h2 class="rail">Research</h2>
+    <div class="body">
+      <dl class="topics">
+        <div class="topic">
+          <dt>Intelligent Transportation Systems</dt>
+          <dd>Adaptive signal control, connected and automated vehicle operations, and corridor-level management strategies.</dd>
+        </div>
+        <div class="topic">
+          <dt>LLM Agents for Engineering Workflows</dt>
+          <dd>Tool-using agents that translate natural-language intent into reproducible modeling pipelines, with the model's assumptions kept inspectable.</dd>
+        </div>
+        <div class="topic">
+          <dt>Traffic Simulation &amp; Optimization</dt>
+          <dd>Microscopic simulation in SUMO, demand generation and calibration, and optimization over control parameters against delay and throughput.</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <hr class="lane">
+
+  <section class="section">
+    <h2 class="rail">Projects</h2>
+    <div class="body">
+      <div class="entries">
+        <article class="entry">
+          <h3 class="entry-title"><a href="https://github.com/ChrisLi1221/ChatSUMO-Agent">ChatSUMO-Agent</a></h3>
+          <div class="entry-meta"><span>Open source</span><span>Python · MIT</span></div>
+          <p>A single-agent system that turns plain-English prompts into a full SUMO workflow — network generation, demand creation, simulation runs, and KPI analysis. Modular MCP providers handle each stage, with a Streamlit chat interface on top.</p>
+          <ul class="tags">
+            <li>SUMO</li><li>MCP</li><li>LLM agents</li><li>Streamlit</li>
+          </ul>
+        </article>
+
+        <!-- Copy this block for each additional project:
+        <article class="entry">
+          <h3 class="entry-title"><a href="URL">Project name</a></h3>
+          <div class="entry-meta"><span>Role or venue</span><span>Stack</span></div>
+          <p>One or two sentences on what it does and why it matters.</p>
+          <ul class="tags"><li>Tag</li></ul>
+        </article>
+        -->
+      </div>
+    </div>
+  </section>
+
+  <hr class="lane">
+
+  <section class="section">
+    <h2 class="rail">Publications</h2>
+    <div class="body">
+      <p class="note">Reverse chronological. Full list and citation counts on <a href="https://scholar.google.com/citations?user=TiFsIWcAAAAJ&amp;hl=en">Google Scholar</a>.</p>
+
+      <div class="entries">
+
+        <article class="entry">
+          <h3 class="entry-title">Decoupled Intelligence: A Multi-Agent LLM Framework for Controllable Traffic Scenario Generation in SUMO</h3>
+          <p class="authors"><strong>S. Li</strong>, R. Ke</p>
+          <div class="entry-meta"><span class="venue">arXiv preprint</span><span>2026</span></div>
+          <p class="links"><a href="https://arxiv.org/abs/2605.27685">arXiv:2605.27685</a></p>
+        </article>
+
+        <article class="entry">
+          <h3 class="entry-title">ChatSUMO Agent: An LLM-Based Agent for Conversational Traffic Simulation in SUMO</h3>
+          <p class="authors"><strong>S. Li</strong>, M. Ma, T. Azfar, R. Ke</p>
+          <div class="entry-meta"><span class="venue">Transportation Research Part C: Emerging Technologies, 190, 105759</span><span>2026</span></div>
+          <p class="links"><a href="https://github.com/ChrisLi1221/ChatSUMO-Agent">Code</a></p>
+        </article>
+
+        <article class="entry">
+          <h3 class="entry-title">Impact-Driven Quantum Decomposition for Traffic Zone Partitioning: A Hybrid Gate-Model Framework</h3>
+          <p class="authors">R. Ke, T. Azfar, K. Huang, <strong>S. Li</strong></p>
+          <div class="entry-meta"><span class="venue">arXiv preprint</span><span>2026</span></div>
+          <p class="links"><a href="https://arxiv.org/abs/2605.01127">arXiv:2605.01127</a></p>
+        </article>
+
+        <article class="entry">
+          <h3 class="entry-title">Onboard Decisions and Cloud-Scale LLM Planning: Split Reasoning and Collaborative Intelligence for Autonomous Driving</h3>
+          <p class="authors">M. Ma, R. Ke, X. Cai, Z. Ye, T. Azfar, <strong>S. Li</strong>, H. Zhong</p>
+          <div class="entry-meta"><span class="venue">IEEE Transactions on Intelligent Vehicles, 10</span><span>2025</span></div>
+        </article>
+
+        <article class="entry">
+          <h3 class="entry-title">ChatSUMO: Large Language Model for Automating Traffic Scenario Generation in Simulation of Urban Mobility</h3>
+          <p class="authors"><strong>S. Li</strong>, T. Azfar, R. Ke</p>
+          <div class="entry-meta"><span class="venue">IEEE Transactions on Intelligent Vehicles</span><span>2024</span></div>
+        </article>
+
+        <article class="entry">
+          <h3 class="entry-title">Urban Travel Pattern Recognition Based on Clustering Techniques Using License Plate Sensing Data</h3>
+          <p class="authors">K. J. Ng, <strong>S. Li</strong>, Z. Pu</p>
+          <div class="entry-meta"><span class="venue">International Conference on Transportation and Development, 213&ndash;224</span><span>2022</span></div>
+        </article>
+
+        <!-- Template for a new paper — paste at the top to keep reverse order:
+        <article class="entry">
+          <h3 class="entry-title">Paper title</h3>
+          <p class="authors"><strong>S. Li</strong>, Co-author</p>
+          <div class="entry-meta"><span class="venue">Venue, volume, pages</span><span>Year</span></div>
+          <p class="links"><a href="URL">Paper</a> · <a href="URL">Code</a></p>
+        </article>
+        -->
+
+      </div>
+    </div>
+  </section>
+
+  <hr class="lane">
+
+  <section class="section">
+    <h2 class="rail">Education</h2>
+    <div class="body">
+      <div class="timeline">
+        <div class="stint">
+          <span class="years">Present</span>
+          <span class="degree">Ph.D., Transportation Engineering</span>
+          <span class="school">Rensselaer Polytechnic Institute</span>
+        </div>
+        <div class="stint">
+          <!-- Add the years, e.g. <span class="years">2022 &ndash; 2024</span> -->
+          <span class="degree">M.S., Transportation Engineering</span>
+          <span class="school">University of Michigan, Ann Arbor</span>
+        </div>
+        <div class="stint">
+          <!-- Add the years, e.g. <span class="years">2018 &ndash; 2022</span> -->
+          <span class="degree">B.S., Transportation Engineering</span>
+          <span class="school">Southeast University, Nanjing</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="lane">
+
+  <footer class="section">
+    <h2 class="rail">Contact</h2>
+    <div class="body">
+      <p>Happy to hear from anyone working on simulation, signal control, or agentic tooling for engineering.<br>
+      <a href="mailto:lis36@rpi.edu">lis36@rpi.edu</a></p>
+      <div class="foot">
+        <span>© 2026 Chris Li</span>
+        <span>Built with plain HTML &amp; CSS</span>
+      </div>
+    </div>
+  </footer>
+
+</main>
 </body>
 </html>
